@@ -1,3 +1,28 @@
+# Note
+
+This repository is forked from the ego planner swarm with some practical modifications. These modifications do not change the original features of the EGO-Swarm. These modifications are for better practical use.
+
+## Modifications
+
+1. The fsm exec_state_ will publish to `planning/exec_state` with message type *ExecStatus*.
+   
+   You can determine the current working state of the planner by subscribing to this topic.
+
+## Docker
+
+The code is compiled into a Docker image. Run the following line to get the image.
+
+```shell
+docker pull endermands/ego-swarm:latest
+docker run -it --net host --name ego_swarm endermands/ego-swarm:latest
+```
+
+For mainland China
+```shell
+docker pull ccr.ccs.tencentyun.com/endermands/ego-swarm:latest
+docker run -it --net host --name ccr.ccs.tencentyun.com/endermands/ego-swarm:latest
+```
+
 # Quick Start within 3 Minutes 
 Compiling tests passed on ubuntu **16.04, 18.04, and 20.04** with ros installed.
 You can just execute the following commands one by one.

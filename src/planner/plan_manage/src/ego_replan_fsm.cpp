@@ -1,5 +1,6 @@
 
 #include <plan_manage/ego_replan_fsm.h>
+#include <quadrotor_msgs/ExecStatus.h>
 
 namespace ego_planner
 {
@@ -58,6 +59,7 @@ namespace ego_planner
 
     bspline_pub_ = nh.advertise<traj_utils::Bspline>("planning/bspline", 10);
     data_disp_pub_ = nh.advertise<traj_utils::DataDisp>("planning/data_display", 100);
+    exec_state_pub_ = nh.advertise<quadrotor_msgs::ExecStatus>("planning/exec_state", 1);
 
     if (target_type_ == TARGET_TYPE::MANUAL_TARGET)
     {
@@ -213,11 +215,15 @@ namespace ego_planner
     if (msg->pose.position.z < -0.1)
       return;
 
+    ROS_INFO("New waypoint x:%.1f, y:%.1f, z:%.1f",
+              msg->pose.position.x,
+              msg->pose.position.y,
+              msg->pose.position.z);
     cout << "Triggered!" << endl;
     // trigger_ = true;
     init_pt_ = odom_pos_;
 
-    Eigen::Vector3d end_wp(msg->pose.position.x, msg->pose.position.y, 1.0);
+    Eigen::Vector3d end_wp(msg->pose.position.x, msg->pose.position.y, msg->pose.position.z);
 
     planNextWaypoint(end_wp);
   }
@@ -431,6 +437,12 @@ namespace ego_planner
   void EGOReplanFSM::execFSMCallback(const ros::TimerEvent &e)
   {
     exec_timer_.stop(); // To avoid blockage
+    
+    // publish exec_state_
+    quadrotor_msgs::ExecStatus exec_status;
+    exec_status.exec_flag = exec_state_;
+    exec_status.header.stamp = ros::Time::now();
+    exec_state_pub_.publish(exec_status);
 
     static int fsm_num = 0;
     fsm_num++;
