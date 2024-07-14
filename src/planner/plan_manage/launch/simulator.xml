@@ -90,7 +90,7 @@
         <param name="so3_control/init_state_y" value="$(arg init_y_)"/>
         <param name="so3_control/init_state_z" value="$(arg init_z_)"/>
         <remap from="~odom" to="drone_$(arg drone_id)_visual_slam/odom"/>
-        <remap from="~position_cmd" to="drone_$(arg drone_id)_planning/pos_cmd"/>
+        <remap from="~position_cmd" to="drone_$(arg drone_id)/planning/pos_cmd"/>
         <remap from="~motors" to="drone_$(arg drone_id)_motors"/>
         <remap from="~corrections" to="drone_$(arg drone_id)_corrections"/>
         <remap from="~so3_cmd" to="drone_$(arg drone_id)_so3_cmd"/>
@@ -107,7 +107,7 @@
         <param name="init_x" value="$(arg init_x_)"/>
         <param name="init_y" value="$(arg init_y_)"/>
         <param name="init_z" value="$(arg init_z_)"/>
-        <remap from="~command" to="drone_$(arg drone_id)_planning/pos_cmd"/>
+        <remap from="~command" to="drone_$(arg drone_id)/planning/pos_cmd"/>
         <remap from="~odometry" to="drone_$(arg drone_id)_$(arg odometry_topic)"/>
   </node>
  
