@@ -5,10 +5,14 @@
 #include "std_msgs/Empty.h"
 #include "visualization_msgs/Marker.h"
 #include <ros/ros.h>
+#include "geometry_msgs/PoseStamped.h"
+#include "geometry_msgs/Quaternion.h"
+#include "tf/tf.h"
 
-ros::Publisher pos_cmd_pub;
+ros::Publisher pos_cmd_pub, pos_cmd_pub_geo;
 
 quadrotor_msgs::PositionCommand cmd;
+geometry_msgs::PoseStamped geo_cmd;
 double pos_gain[3] = {0, 0, 0};
 double vel_gain[3] = {0, 0, 0};
 
@@ -227,6 +231,19 @@ void cmdCallback(const ros::TimerEvent &e)
   last_yaw_ = cmd.yaw;
 
   pos_cmd_pub.publish(cmd);
+
+  // Publish traj point using geometry/PoseStamped
+  geo_cmd.header.frame_id = "world";
+  geo_cmd.header.stamp = time_now;
+  geo_cmd.pose.position.x = pos(0);
+  geo_cmd.pose.position.y = pos(1);
+  geo_cmd.pose.position.z = pos(2);
+  auto q = tf::createQuaternionMsgFromRollPitchYaw(0.0, 0.0, yaw_yawdot.first);
+  geo_cmd.pose.orientation.x = q.x;
+  geo_cmd.pose.orientation.y = q.y;
+  geo_cmd.pose.orientation.z = q.z;
+  geo_cmd.pose.orientation.w = q.w;
+  pos_cmd_pub_geo.publish(geo_cmd);
 }
 
 int main(int argc, char **argv)
@@ -237,7 +254,8 @@ int main(int argc, char **argv)
 
   ros::Subscriber bspline_sub = nh.subscribe("planning/bspline", 10, bsplineCallback);
 
-  pos_cmd_pub = nh.advertise<quadrotor_msgs::PositionCommand>("position_cmd", 50);
+  pos_cmd_pub = nh.advertise<quadrotor_msgs::PositionCommand>("position_cmd", 10);
+  pos_cmd_pub_geo = nh.advertise<geometry_msgs::PoseStamped>("position_cmd_geo", 10);
 
   ros::Timer cmd_timer = nh.createTimer(ros::Duration(0.01), cmdCallback);
 

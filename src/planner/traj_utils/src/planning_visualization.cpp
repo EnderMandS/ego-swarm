@@ -8,11 +8,11 @@ namespace ego_planner
   {
     node = nh;
 
-    goal_point_pub = nh.advertise<visualization_msgs::Marker>("goal_point", 2);
-    global_list_pub = nh.advertise<visualization_msgs::Marker>("global_list", 2);
-    init_list_pub = nh.advertise<visualization_msgs::Marker>("init_list", 2);
-    optimal_list_pub = nh.advertise<visualization_msgs::Marker>("optimal_list", 2);
-    a_star_list_pub = nh.advertise<visualization_msgs::Marker>("a_star_list", 20);
+    goal_point_pub = nh.advertise<visualization_msgs::Marker>("planning/goal_point", 2);
+    global_list_pub = nh.advertise<visualization_msgs::Marker>("planning/global_list", 2);
+    init_list_pub = nh.advertise<visualization_msgs::Marker>("planning/init_list", 2);
+    optimal_list_pub = nh.advertise<visualization_msgs::Marker>("planning/optimal_list", 2);
+    a_star_list_pub = nh.advertise<visualization_msgs::Marker>("planning/a_star_list", 20);
   }
 
   // // real ids used: {id, id+1000}

@@ -439,7 +439,7 @@ namespace ego_planner
     exec_timer_.stop(); // To avoid blockage
     
     // publish exec_state_
-    quadrotor_msgs::ExecStatus exec_status;
+    static quadrotor_msgs::ExecStatus exec_status;
     exec_status.exec_flag = exec_state_;
     exec_status.header.stamp = ros::Time::now();
     exec_state_pub_.publish(exec_status);

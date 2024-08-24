@@ -47,15 +47,25 @@
   <node pkg="ego_planner" name="drone_$(arg drone_id)_ego_planner_node" type="ego_planner_node" output="screen">
   
     <remap from="~odom_world" to="/drone_$(arg drone_id)/$(arg odometry_topic)"/>
+
     <remap from="~planning/bspline" to = "/drone_$(arg drone_id)/planning/bspline"/>
     <remap from="~planning/data_display" to = "/drone_$(arg drone_id)/planning/data_display"/>
+    <remap from="~planning/exec_state" to = "/drone_$(arg drone_id)/planning/exec_state"/>
     <remap from="~planning/broadcast_bspline_from_planner" to = "/broadcast_bspline"/>
     <remap from="~planning/broadcast_bspline_to_planner" to = "/broadcast_bspline"/>
+    <remap from="~planning/goal_point" to="drone_$(arg drone_id)/planning/goal_point"/>
+    <remap from="~planning/global_list" to="drone_$(arg drone_id)/planning/global_list"/>
+    <remap from="~planning/init_list" to="drone_$(arg drone_id)/planning/init_list"/>
+    <remap from="~planning/optimal_list" to="drone_$(arg drone_id)/planning/optimal_list"/>
+    <remap from="~planning/a_star_list" to="drone_$(arg drone_id)/planning/a_star_list"/>
 
     <remap from="~grid_map/odom" to="/drone_$(arg drone_id)/$(arg odometry_topic)"/>
     <remap from="~grid_map/cloud" to="/drone_$(arg drone_id)/$(arg cloud_topic)"/>
     <remap from="~grid_map/pose"   to = "/drone_$(arg drone_id)/$(arg camera_pose_topic)"/> 
     <remap from="~grid_map/depth" to = "/drone_$(arg drone_id)/$(arg depth_topic)"/>
+    <remap from="~grid_map/occupancy" to = "/drone_$(arg drone_id)/grid_map/occupancy"/>
+    <remap from="~grid_map/occupancy_inflate" to = "/drone_$(arg drone_id)/grid_map/occupancy_inflate"/>
+
     
     <remap from="/move_base_simple/goal" to = "/drone_$(arg drone_id)/goal"/> <!-- geometry_msgs::PoseStamped -->
 

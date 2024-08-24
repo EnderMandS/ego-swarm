@@ -8,6 +8,8 @@ This repository is forked from the ego planner swarm with some practical modific
    
    You can determine the current working state of the planner by subscribing to this topic.
 
+2. The trajectory path point will publish to `planning/pos_cmd_geo` with message type *geometry_msgs/PoseStamped*.
+
 ## Docker
 
 The code is compiled into a Docker image. Run the following line to get the image.
