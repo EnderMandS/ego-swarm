@@ -572,7 +572,7 @@ namespace ego_planner
         wp_id_++;
         planNextWaypoint(wps_[wp_id_]);
       }
-      else if ((local_target_pt_ - end_pt_).norm() < 1e-3) // close to the global target
+      else if ((local_target_pt_ - end_pt_).norm() < 0.05) // close to the global target
       {
         if (t_cur > info->duration_ - 1e-2)
         {
@@ -584,7 +584,7 @@ namespace ego_planner
             wp_id_ = 0;
             planNextWaypoint(wps_[wp_id_]);
           }
-
+          ROS_INFO("Target complete.");
           changeFSMExecState(WAIT_TARGET, "FSM");
           goto force_return;
           // return;
@@ -661,7 +661,9 @@ namespace ego_planner
     start_pt_ = info->position_traj_.evaluateDeBoorT(t_cur);
     start_vel_ = info->velocity_traj_.evaluateDeBoorT(t_cur);
     start_acc_ = info->acceleration_traj_.evaluateDeBoorT(t_cur);
-
+    // start_pt_ = odom_pos_;
+    // start_vel_ = odom_vel_;
+    // start_acc_.setZero();
     bool success = callReboundReplan(false, false);
 
     if (!success)
